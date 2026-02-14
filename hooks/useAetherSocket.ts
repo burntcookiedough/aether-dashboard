@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
+const WS_URL = 'ws://192.168.137.1:8000/ws'; // Laptop IP (host)
+
 export type Detection = {
     class_id: number;
     name: string;
@@ -37,7 +39,7 @@ export function useAetherSocket() {
 
     useEffect(() => {
         // Connect to the Backend (Running on Laptop now)
-        const socketUrl = "ws://127.0.0.1:8000/ws";
+        const socketUrl = WS_URL;
 
         function connect() {
             if (ws.current?.readyState === WebSocket.OPEN) return;
