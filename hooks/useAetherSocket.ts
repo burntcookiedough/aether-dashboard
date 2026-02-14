@@ -10,10 +10,16 @@ export type Detection = {
 };
 
 export type AetherData = {
-    gas: number;
-    temp: number;
-    hum: number;
-    dust: number;
+    // New Sensor Structure
+    mq2: number;        // Smoke/LPG
+    mq7: number;        // Carbon Monoxide
+    dust: number;       // IR Sensor (Particulate Matter)
+    temp: number;       // Temperature
+    hum: number;        // Humidity
+
+    // Legacy mapping (optional)
+    gas?: number;
+
     hazard: boolean;
     image: string; // Base64 image
     object_name: string;

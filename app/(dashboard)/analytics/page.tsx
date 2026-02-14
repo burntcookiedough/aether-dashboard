@@ -106,12 +106,17 @@ export default function AnalyticsPage() {
                 </div>
             )}
 
-            <div className="grid grid-cols-1 gap-8">
-                <ChartCard title="Air Quality Index" dataKey="gas" color="#3b82f6" data={chartData} unit="PPM" />
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <ChartCard title="Environmental Temperature" dataKey="temp" color="#10b981" data={chartData} unit="°C" />
-                    <ChartCard title="Particulate Matter" dataKey="dust" color="#ef4444" data={chartData} unit="µg/m³" />
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Air Quality Section */}
+                <ChartCard title="Smoke & LPG (MQ-2)" dataKey="mq2" color="#ef4444" data={chartData} unit="PPM" />
+                <ChartCard title="Carbon Monoxide (MQ-7)" dataKey="mq7" color="#f59e0b" data={chartData} unit="PPM" />
+
+                {/* Particulate Section */}
+                <ChartCard title="Particulate Matter (IR)" dataKey="dust" color="#8b5cf6" data={chartData} unit="V/Units" />
+
+                {/* Environment Section */}
+                <ChartCard title="Ambient Temperature" dataKey="temp" color="#3b82f6" data={chartData} unit="°C" />
+                <ChartCard title="Relative Humidity" dataKey="hum" color="#10b981" data={chartData} unit="%" />
             </div>
         </div>
     );
