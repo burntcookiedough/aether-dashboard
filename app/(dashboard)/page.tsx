@@ -8,8 +8,10 @@ import { ShieldCheck, Wind, Thermometer, Droplets, AlertTriangle, Scan, Camera }
 import Link from "next/link";
 
 // Mock Data for UI Testing (fallback)
-const mockData = {
+const mockData: any = {
   gas: 45,
+  mq2: 45,
+  mq7: 12,
   temp: 24,
   hum: 58,
   dust: 12,
@@ -18,7 +20,10 @@ const mockData = {
   object_name: "Safety_Goggles",
   system_cpu: 14,
   system_ram_used: 1024,
-  system_temp: 42
+  system_temp: 42,
+  risk_score: 15,
+  risk_level: "LOW",
+  detections: []
 };
 
 export default function Dashboard() {
@@ -115,7 +120,9 @@ export default function Dashboard() {
               <div className="h-full w-full opacity-60 group-hover:opacity-100 transition-opacity">
                 <DigitalTwin
                   isHazard={data?.hazard || false}
-                  gasLevel={data?.gas || 0}
+                  mq2={data?.mq2 || 0}
+                  dust={data?.dust || 0}
+                  temp={data?.temp || 0}
                   active={isConnected}
                 />
               </div>
@@ -134,14 +141,36 @@ export default function Dashboard() {
 
           {/* RIGHT COLUMN: METRICS */}
           <div className="col-span-4 flex flex-col gap-4 overflow-y-auto pr-1">
+            {/* WEIGHTED AVERAGE / RISK SCORE */}
             <MetricCard
-              label="Air Quality"
-              value={data?.gas ? `${data.gas}` : "--"}
-              unit="PPM"
-              icon={Wind}
-              status={data && data.gas > 150 ? "critical" : "normal"}
-              trend="up"
+              label="Safety Risk Score"
+              value={data?.risk_score !== undefined ? `${data.risk_score}` : "--"}
+              unit="%"
+              icon={ShieldCheck}
+              status={data && data.risk_score > 50 ? "critical" : (data && data.risk_score > 25 ? "warning" : "normal")}
+              trend="stable"
             />
+
+            {/* GAS SENSORS */}
+            <div className="grid grid-cols-2 gap-4">
+              <MetricCard
+                label="Smoke/LPG"
+                value={data?.mq2 ? `${data.mq2}` : "--"}
+                unit="PPM"
+                icon={Wind}
+                status={data && data.mq2 > 200 ? "critical" : "normal"}
+                trend="up"
+              />
+              <MetricCard
+                label="CO Level"
+                value={data?.mq7 ? `${data.mq7}` : "--"}
+                unit="PPM"
+                icon={AlertTriangle}
+                status={data && data.mq7 > 100 ? "warning" : "normal"}
+                trend="stable"
+              />
+            </div>
+
             <MetricCard
               label="Temperature"
               value={data?.temp ? `${data.temp}` : "--"}
@@ -159,10 +188,10 @@ export default function Dashboard() {
               trend="stable"
             />
             <MetricCard
-              label="Particulates"
+              label="Particulate (IR)"
               value={data?.dust ? `${data.dust}` : "--"}
-              unit="µg/m³"
-              icon={AlertTriangle}
+              unit="V/Units"
+              icon={Scan}
               status={data && data.dust > 100 ? "critical" : "normal"}
               trend="up"
             />

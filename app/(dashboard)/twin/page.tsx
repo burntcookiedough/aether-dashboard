@@ -30,7 +30,15 @@ export default function TwinPage() {
 
             {/* Main Content - Full Screen Twin */}
             <div className="relative flex-1 min-h-0 border border-surgical-border bg-surgical-gray overflow-hidden">
-                <DigitalTwin isHazard={isHazard} fullScreen={true} />
+                <DigitalTwin
+                    isHazard={isHazard}
+                    fullScreen={true}
+                    mq2={data?.mq2}
+                    mq7={data?.mq7}
+                    dust={data?.dust}
+                    temp={data?.temp}
+                    hum={data?.hum}
+                />
 
                 {/* Overlay Data Panel */}
                 <div className="absolute top-4 right-4 w-64 space-y-2">
@@ -47,13 +55,29 @@ export default function TwinPage() {
 
                     <div className="bg-black/80 backdrop-blur border border-surgical-border p-4">
                         <h3 className="font-mono text-[10px] text-text-secondary uppercase mb-2">Telemetry</h3>
-                        <div className="flex justify-between items-center border-b border-surgical-border/50 pb-2 mb-2">
-                            <span className="font-mono text-xs text-text-dim">GAS</span>
-                            <span className="font-mono text-sm text-white">{data?.gas || 0} PPM</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <span className="font-mono text-xs text-text-dim">TEMP</span>
-                            <span className="font-mono text-sm text-white">{data?.temp || 0}°C</span>
+
+                        <div className="space-y-2">
+                            <div className="flex justify-between items-center">
+                                <span className="font-mono text-xs text-text-dim">SMOKE</span>
+                                <span className="font-mono text-xs text-white">{data?.mq2 || 0} PPM</span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <span className="font-mono text-xs text-text-dim">CO</span>
+                                <span className="font-mono text-xs text-white">{data?.mq7 || 0} PPM</span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <span className="font-mono text-xs text-text-dim">DUST</span>
+                                <span className="font-mono text-xs text-white">{data?.dust || 0}</span>
+                            </div>
+                            <div className="w-full bg-surgical-border h-[1px] my-2" />
+                            <div className="flex justify-between items-center">
+                                <span className="font-mono text-xs text-text-dim">TEMP</span>
+                                <span className="font-mono text-xs text-white">{data?.temp || 0}°C</span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <span className="font-mono text-xs text-text-dim">HUM</span>
+                                <span className="font-mono text-xs text-white">{data?.hum || 0}%</span>
+                            </div>
                         </div>
                     </div>
                 </div>
